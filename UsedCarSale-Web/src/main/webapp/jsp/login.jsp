@@ -15,7 +15,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>飞云汽车销售管理系统 </title>
+    <title>二手汽车销售管理系统 </title>
     <!-- 自己的css -->
     <link href="../css/login.css" rel="stylesheet">
 
@@ -82,8 +82,7 @@
                         <br />
 
                         <div>
-                            <h1><i class="fa fa-paw"></i> 飞云汽车销售管理系统</h1>
-                            <p>©2018 All Rights Reserved.</p>
+                            <h1>二手汽车销售管理系统</h1>
                         </div>
                     </div>
                 </form>
@@ -130,7 +129,7 @@
                         <br />
 
                         <div>
-                            <h1><i class="fa fa-paw"></i> 飞云汽车销售管理系统</h1>
+                            <h1><i class="fa fa-paw"></i> 二手汽车销售管理系统</h1>
                             <p>©2018 All Rights Reserved.</p>
                         </div>
                     </div>

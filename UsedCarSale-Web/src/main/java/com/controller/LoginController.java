@@ -60,9 +60,9 @@ public class LoginController {
         logger.debug("根据id查询员工对象为：" + employeeById);
 
         Integer positionId = employeeById.getPositionId();
-        if (positionId == MyConst.ADMINPOSITION){
+        if (positionId.equals(MyConst.ADMINPOSITION)){
             modelAndView.setViewName("AdminMain");//经理权限
-        } else if (positionId == MyConst.EMPPOSITION) {
+        } else if (positionId.equals(MyConst.EMPPOSITION)) {
             modelAndView.setViewName("EmpMain");//操作员权限
         }
 
@@ -175,6 +175,7 @@ public class LoginController {
     @RequestMapping("/isLoginSuccess")
     @ResponseBody
     public Map<String, String> isLoginSuccess(Employee employee){
+        employee.setCompanyId(1);
         logger.debug("开始--验证是否登录成功的方法");
         logger.debug("前台获取到的employee为："+employee);
         Map<String,String> map = new HashMap<String, String>();
@@ -271,6 +272,7 @@ public class LoginController {
     @RequestMapping("/isExistEmpPhone")
     @ResponseBody
     public Map<String, String> isExistEmpPhone(Employee employee){
+        employee.setCompanyId(1);
         logger.debug("开始--验证员工电话的方法");
         Map<String,String> map = new HashMap<String, String>();
         logger.debug("前台获取到的emp：" + employee);

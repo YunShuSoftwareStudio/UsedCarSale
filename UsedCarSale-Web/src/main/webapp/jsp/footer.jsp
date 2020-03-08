@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <footer>
     <div class="pull-right">
-        飞云科技 - ©2018 All Rights Reserved.
+        汽车销售
     </div>
     <div class="clearfix"></div>
 </footer>

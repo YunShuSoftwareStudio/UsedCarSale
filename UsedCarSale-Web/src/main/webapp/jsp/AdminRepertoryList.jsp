@@ -44,7 +44,7 @@
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a class="site_title"><i class="fa fa-paw"></i> <span>飞云科技</span></a>
+                    <a class="site_title"><span>汽车销售</span></a>
                 </div>
                 <input id="projectName" type="hidden" project="${pageContext.request.contextPath}">
                 <div class="clearfix"></div>

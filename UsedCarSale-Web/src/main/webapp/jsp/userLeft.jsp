@@ -15,6 +15,4 @@
         <span>欢迎您,</span>
         <h2>${emp.empName} ！</h2>
     </div>
-    <div>&nbsp;&nbsp;&nbsp;&nbsp;${emp.company.companyName}</div>
-
 </div>

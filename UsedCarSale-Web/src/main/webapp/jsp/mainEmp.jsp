@@ -43,8 +43,8 @@
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="${pageContext.request.contextPath}/jsp/mainEmp.jsp" class="site_title"><i
-                            class="fa fa-paw"></i> <span>飞云科技</span></a>
+                    <a href="${pageContext.request.contextPath}/jsp/mainEmp.jsp" class="site_title">
+                        <span>汽车销售</span></a>
                 </div>
 
                 <div class="clearfix"></div>

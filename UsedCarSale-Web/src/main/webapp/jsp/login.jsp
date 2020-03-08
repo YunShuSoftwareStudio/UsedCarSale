@@ -45,10 +45,6 @@
                     <input id="projectName" type="hidden" project="${pageContext.request.contextPath}">
                     <h1>登&nbsp;&nbsp;录</h1>
                     <div>
-                        <input id="CompanyName_login" type="text" class="form-control" placeholder="企业名称"
-                               required="required" />
-                    </div>
-                    <div>
                         <select id="PositionName_login" class="form-control">
                             <option value="0">请选择职位名称</option>
                             <option value="1">经理</option>
@@ -93,10 +89,6 @@
             <section class="login_content">
                 <form>
                     <h1>注&nbsp;&nbsp;册</h1>
-                    <div>
-                        <input id="CompanyName_register" type="text" class="form-control" placeholder="企业名称"
-                               required="required" />
-                    </div>
                     <div>
                         <input id="EmpName_register" type="text" class="form-control" placeholder="员工姓名"
                                required="required" />

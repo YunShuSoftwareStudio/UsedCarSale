@@ -36,7 +36,7 @@ $(function () {
                 function (data) {
                     var resultValue = data.resultLogin;
                     if ("false" == resultValue) {
-                        alert("登录失败,请查证后重试！");
+                        alert("登录失败,请查证后重试！如果您是操作员请联系经理查看是否已经激活账户！");
                         location.reload();
                     } else {
                         console.log("登录成功！");

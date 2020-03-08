@@ -1,4 +1,5 @@
 package com.pojo;
+
 public class Employee {
     private Integer empId;//员工编号
     private Integer companyId;//公司编号
@@ -7,12 +8,28 @@ public class Employee {
     private Integer positionId;//职务编号
     private String empName;//员工姓名
     private String empPassword;//登录密码
+    private Boolean activation;//是否激活
     private Company company;
     private Position position;
+
     public Employee() {
         super();
     }
-    public Employee(Integer empId,Integer companyId,String empPhone,Double empSalery,Integer positionId,String empName,String empPassword,Company company,Position position) {
+
+    public Employee(Integer empId, Integer companyId, String empPhone, Double empSalery, Integer positionId, String empName, String empPassword, Boolean activation, Company company, Position position) {
+        this.empId = empId;
+        this.companyId = companyId;
+        this.empPhone = empPhone;
+        this.empSalery = empSalery;
+        this.positionId = positionId;
+        this.empName = empName;
+        this.empPassword = empPassword;
+        this.activation = activation;
+        this.company = company;
+        this.position = position;
+    }
+
+    public Employee(Integer empId, Integer companyId, String empPhone, Double empSalery, Integer positionId, String empName, String empPassword, Company company, Position position) {
         super();
         this.empId = empId;
         this.companyId = companyId;
@@ -24,6 +41,7 @@ public class Employee {
         this.company = company;
         this.position = position;
     }
+
     public Integer getEmpId() {
         return this.empId;
     }
@@ -96,6 +114,14 @@ public class Employee {
         this.position = position;
     }
 
+    public Boolean isActivation() {
+        return activation;
+    }
+
+    public void setActivation(Boolean activation) {
+        this.activation = activation;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -106,6 +132,7 @@ public class Employee {
                 ", positionId=" + positionId +
                 ", empName='" + empName + '\'' +
                 ", empPassword='" + empPassword + '\'' +
+                ", activation=" + activation +
                 ", company=" + company +
                 ", position=" + position +
                 '}';

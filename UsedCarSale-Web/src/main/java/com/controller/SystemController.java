@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import service.AdminlogService;
@@ -218,6 +219,22 @@ public class SystemController {
 
         logger.debug("结束--根据登录用户的公司编号查询所有的员工资料的方法");
         return modelAndView;
+    }
+
+    @RequestMapping("/activation")
+    @ResponseBody
+    public Map<String, String> activation(@RequestParam int empId) {
+        Map<String, String> map = new HashMap<String, String>();
+        Employee employee = new Employee();
+        employee.setEmpId(empId);
+        employee.setActivation(true);
+        int count = employeeService.updateNonEmptyEmployeeById(employee);
+        if (count > 0) {
+            map.put("success", "true");
+        } else {
+            map.put("success", "false");
+        }
+        return map;
     }
 
 }

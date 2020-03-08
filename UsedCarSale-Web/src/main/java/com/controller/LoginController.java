@@ -4,11 +4,14 @@ import com.pojo.Adminlog;
 import com.pojo.Company;
 import com.pojo.Employee;
 import common.Assist;
+import common.Captcha;
 import common.MyConst;
 import common.PhoneMessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +20,13 @@ import service.AdminlogService;
 import service.CompanyService;
 import service.EmployeeService;
 
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -88,9 +98,17 @@ public class LoginController {
      **/
     @RequestMapping("/isRegisterSuccess")
     @ResponseBody
-    public Map<String, String> isRegisterSuccess(Employee employee) {
+    public Map<String, String> isRegisterSuccess(Employee employee, String code, HttpServletRequest request) {
+        employee.setCompanyId(1);
+        employee.setActivation(false);
         logger.debug("开始--创建员工的方法");
         Map<String, String> map = new HashMap<String, String>();
+
+        if (!code.toLowerCase().equals(request.getSession().getAttribute("simpleCaptcha"))) {
+            map.put("resultRegister", "false");
+            map.put("msg", "验证码错误");
+            return map;
+        }
 
         int count = employeeService.insertEmployee(employee);
         if (count > 0) {
@@ -100,7 +118,6 @@ public class LoginController {
             logger.debug("添加员工失败！");
             map.put("resultRegister", "false");
         }
-
         logger.debug("结束--创建员工的方法");
         return map;
     }
@@ -186,7 +203,14 @@ public class LoginController {
         Assist.WhereRequire<String> empPhone = andEq("empPhone", employee.getEmpPhone());
         Assist.WhereRequire<String> empPassword = andEq("empPassword", employee.getEmpPassword());
         Assist assist = new Assist();
-        assist.setRequires(positionId, companyId, empName, empPhone, empPassword);
+        //操作员激活验证
+        if (employee.getPositionId() == 2) {
+            Assist.WhereRequire<Boolean> activation = andEq("activation", true);
+            logger.debug("验证操作员是否激活");
+            assist.setRequires(positionId, companyId, empName, empPhone, empPassword, activation);
+        } else {
+            assist.setRequires(positionId, companyId, empName, empPhone, empPassword);
+        }
 
         long rowCount = employeeService.getEmployeeRowCount(assist);
         logger.debug("getEmployeeRowCount：" + rowCount);
@@ -206,7 +230,7 @@ public class LoginController {
             logger.debug("添加了" + i + "条日志管理记录");
 
         } else {
-            logger.debug("验证失败，拒绝登录");
+            logger.debug("验证失败，拒绝登录。如果您是操作员请联系经理查看是否已经激活账户！");
             map.put("resultLogin", "false");
         }
 
@@ -317,5 +341,22 @@ public class LoginController {
         return map;
     }
 
+    @RequestMapping("/code")
+    public void code(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setDateHeader(HttpHeaders.EXPIRES, 0);
+        response.setHeader(HttpHeaders.CACHE_CONTROL, "no-store, no-cache, must-revalidate");
+        response.addHeader(HttpHeaders.CACHE_CONTROL, "post-check=0, pre-check=0");
+        response.setHeader(HttpHeaders.PRAGMA, "no-cache");
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
 
+        OutputStream os = response.getOutputStream();
+        //返回验证码和图片的map
+        Map<String, Object> map = Captcha.getImageCode(86, 37, os);
+
+        HttpSession session = request.getSession();
+        session.setAttribute("simpleCaptcha", map.get("strEnsure").toString().toLowerCase());
+        session.setAttribute("codeTime", System.currentTimeMillis());
+
+        ImageIO.write((BufferedImage) map.get("image"), "jpg", os);
+    }
 }

@@ -54,16 +54,16 @@
                     <br/>
                     <div>
                         <input id="EmpName_login" type="text" class="form-control" placeholder="员工名称"
-                               required="required" />
+                               required="required"/>
                     </div>
                     <div>
                         <input id="PhoneNumber_login" type="text" class="form-control"
                                maxlength="11" placeholder="手机号码:请输入正确的11位手机号码"
-                               required="required" />
+                               required="required"/>
                     </div>
                     <div>
                         <input id="Password_login" type="password" class="form-control" placeholder="登录密码"
-                               required="required" />
+                               required="required"/>
                     </div>
                     <div>
                         <a id="but_login" class="btn btn-default">登录</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -75,7 +75,7 @@
                     <div class="separator">
 
                         <div class="clearfix"></div>
-                        <br />
+                        <br/>
 
                         <div>
                             <h1>二手汽车销售管理系统</h1>
@@ -90,21 +90,23 @@
                 <form>
                     <h1>注&nbsp;&nbsp;册</h1>
                     <div>
-                        <input id="EmpName_register" type="text" class="form-control" placeholder="员工姓名"
-                               required="required" />
+                        <input id="EmpName_register" type="text" class="form-control" placeholder="操作员姓名"
+                               required="required"/>
                     </div>
                     <div>
                         <input id="PhoneNumber_register" type="text" class="form-control" placeholder="手机号码"
-                               maxlength="11" required="required" />
+                               maxlength="11" required="required"/>
                     </div>
                     <div>
                         <input id="Password_register" type="password" class="form-control" placeholder="登录密码"
-                               required="required" />
+                               required="required"/>
                     </div>
                     <div>
-                        <input id="authcode_input" type="text" class="form-control"  placeholder="验证码"
-                               required="required" v=""/>
-                        <button id="authcode_button" class="btn btn-primary">免费获取验证码</button>
+                        <input id="authcode_input" type="text" class="form-control" placeholder="验证码"
+                               required="required"/>
+
+                        <img src="${pageContext.request.contextPath}/login/code.action" onclick="refreshCode(this)"
+                             alt="" style="cursor: pointer;">
                     </div>
                     <div>
                         <a id="btn_register" class="btn btn-default"> 注册 </a>
@@ -118,11 +120,10 @@
                         </p>
 
                         <div class="clearfix"></div>
-                        <br />
+                        <br/>
 
                         <div>
-                            <h1><i class="fa fa-paw"></i> 二手汽车销售管理系统</h1>
-                            <p>©2018 All Rights Reserved.</p>
+                            <h1>二手汽车销售管理系统</h1>
                         </div>
                     </div>
                 </form>
@@ -130,6 +131,11 @@
         </div>
     </div>
 </div>
+<script>
+    function refreshCode(e) {
+        e.src = "${pageContext.request.contextPath}/login/code.action?time=" + new Date().getTime();
+    }
+</script>
 </body>
 
 <!-- 引入js文件 -->

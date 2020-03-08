@@ -88,7 +88,7 @@
                                         车辆库存</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-cny"></i> 财务管理
+                            <li><a><i class="fa fa-cny"></i> 收购管理
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="${pageContext.request.contextPath}/order/getAllReceipt.action?empId=${emp.empId}">
@@ -97,11 +97,9 @@
                                         付款</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-bar-chart-o"></i>报表管理
+                            <li><a><i class="fa fa-bar-chart-o"></i>统计管理
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="${pageContext.request.contextPath}/employeeSale/getEmpId.action?empId=${emp.empId}">
-                                        员工销量</a></li>
                                     <li ><a href="${pageContext.request.contextPath}/finance/getEmpId.action?empId=${emp.empId}">
                                         财务状况</a></li>
                                 </ul>

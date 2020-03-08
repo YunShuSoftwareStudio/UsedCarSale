@@ -112,8 +112,6 @@
                                     <li class="current-page">
                                         <a href="${pageContext.request.contextPath}/system/getAllEmp.action?empId=${emp.empId}">
                                         员工管理</a></li>
-                                    <li><a href="${pageContext.request.contextPath}/system/getAllLog.action?empId=${emp.empId}">
-                                        日志信息</a></li>
                                 </ul>
                             </li>
                         </ul>

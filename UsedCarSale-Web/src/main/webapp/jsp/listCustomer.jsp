@@ -106,7 +106,6 @@
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="chartjs.html">员工管理</a></li>
-                                    <li><a href="chartjs2.html">日志信息</a></li>
                                 </ul>
                             </li>
                         </ul>

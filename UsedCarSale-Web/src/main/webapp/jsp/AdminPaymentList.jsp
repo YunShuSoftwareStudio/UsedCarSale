@@ -103,11 +103,11 @@
                             <li class="active"><a><i class="fa fa-cny"></i> 收购管理
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" style="display: block;">
-                                    <li><a href="${pageContext.request.contextPath}/order/getAllReceipt.action?empId=${emp.empId}">
-                                        收款</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/brand/evaluation.action?empId=${emp.empId}">
+                                        收购评估</a></li>
                                     <li class="current-page">
                                         <a href="${pageContext.request.contextPath}/order/getAllOrder.action?empId=${emp.empId}">
-                                        付款</a></li>
+                                        收购订单</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-bar-chart-o"></i> 统计管理
@@ -179,7 +179,7 @@
                                         <td>
                                             <c:if test="${carorder.getOrderTypeFormat()=='未审核'}">
                                                 <a href="${pageContext.request.contextPath}/order/updateOrderById.action?empId=${emp.empId}&orderId=${carorder.orderId}">
-                                                    <button type="button" class="btn btn-info btn-xs">付款</button>
+                                                    <button type="button" class="btn btn-info btn-xs">收购订单</button>
                                                 </a>
                                             </c:if>
                                         </td>

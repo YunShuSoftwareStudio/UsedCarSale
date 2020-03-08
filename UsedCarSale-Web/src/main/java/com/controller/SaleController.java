@@ -70,6 +70,7 @@ public class SaleController {
             financing.setCompanyId(saleById.getCompanyId());
             financing.setFinancingMoney(saleById.getSaleTotalPrice());
             financing.setFinancingType(MyConst.INCOME);
+            financing.setFinancingTime(new Date());
             int insertFinancingCount = financingService.insertFinancing(financing);
             logger.debug("财务添加" + insertFinancingCount + "条支出数据");
             logger.debug("数据financing为：" + financing);
@@ -296,9 +297,9 @@ public class SaleController {
         modelAndView.addObject("emp", employeeById);
         modelAndView.addObject("saleList", saleList);
 
-        if (positionId == MyConst.ADMINPOSITION) {
+        if (positionId.equals(MyConst.ADMINPOSITION)) {
             modelAndView.setViewName("AdminSaleList");//经理权限
-        } else if (positionId == MyConst.EMPPOSITION) {
+        } else if (positionId.equals(MyConst.EMPPOSITION)) {
             modelAndView.setViewName("EmpSaleList");//操作员权限
         }
 

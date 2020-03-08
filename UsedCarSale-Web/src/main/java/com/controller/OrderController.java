@@ -46,13 +46,13 @@ public class OrderController {
 
     /**
      * @description: 收款查询：根据公司查询所有销售单
-     * @param: getAllReceipt
+     * @param: evaluation
      * @return:
      * @author: Altman
      * @date: 2018-05-09 23:25
      **/
-    @RequestMapping("/getAllReceipt")
-    public ModelAndView getAllReceipt(String empId) {
+    //@RequestMapping("/evaluation")
+    public ModelAndView evaluation(String empId) {
         logger.debug("开始--收款查询：根据公司查询所有销售单的方法");
 
         //根据用户id查询用户，并获取到公司编号companyId

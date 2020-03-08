@@ -104,8 +104,8 @@
                             <li><a><i class="fa fa-cny"></i> 收购管理
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="chartjs.html">收款</a></li>
-                                    <li><a href="chartjs2.html">付款</a></li>
+                                    <li><a href="chartjs.html">收购评估</a></li>
+                                    <li><a href="chartjs2.html">收购订单</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-bar-chart-o"></i> 统计管理

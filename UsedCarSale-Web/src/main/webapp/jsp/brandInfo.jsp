@@ -96,11 +96,11 @@
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li>
-                                        <a href="${pageContext.request.contextPath}/order/getAllReceipt.action?empId=${emp.empId}">
-                                            收款</a></li>
+                                        <a href="${pageContext.request.contextPath}/brand/evaluation.action?empId=${emp.empId}">
+                                            收购评估</a></li>
                                     <li>
                                         <a href="${pageContext.request.contextPath}/order/getAllOrder.action?empId=${emp.empId}">
-                                            付款</a></li>
+                                            收购订单</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-bar-chart-o"></i> 统计管理

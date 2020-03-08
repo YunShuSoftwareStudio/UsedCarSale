@@ -1,8 +1,10 @@
 package com.controller;
 
 import com.dao.BrandMapper;
+import com.dao.EvaluationMapper;
 import com.pojo.Carbrand;
 import com.pojo.Employee;
+import com.pojo.Evaluation;
 import common.Assist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,9 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import service.CarbrandService;
 import service.EmployeeService;
 
+import java.text.DecimalFormat;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/brand")
@@ -24,6 +29,8 @@ public class BrandController {
     EmployeeService employeeService;
     @Autowired
     BrandMapper brandMapper;
+    @Autowired
+    EvaluationMapper evaluationMapper;
     @Autowired
     CarbrandService carbrandService;
 
@@ -102,5 +109,66 @@ public class BrandController {
         model.addAttribute("hotList", brandMapper.selectHotList());
 
         return "brandHot";
+    }
+
+    @RequestMapping("/evaluation")
+    public String evaluation(Model model, @RequestParam String empId) {
+        Employee employeeById = employeeService.selectEmployeeById(Integer.parseInt(empId));
+        model.addAttribute("emp", employeeById);
+        Assist assist = new Assist();
+        model.addAttribute("carBrandList", carbrandService.selectCarbrand(assist));
+        return "AdminReceiptList";
+    }
+
+    @RequestMapping("/doEvaluation")
+    public String doEvaluation(@RequestParam String empId,
+                               @RequestParam int brand,
+                               @RequestParam double age,
+                               @RequestParam double km, Model model) {
+        Employee employeeById = employeeService.selectEmployeeById(Integer.parseInt(empId));
+        model.addAttribute("emp", employeeById);
+        List<Evaluation> evaluationList = evaluationMapper.selectAll();
+        int scoreBrand = evaluationList
+                .stream()
+                .filter(evaluation -> "brand".equals(evaluation.getName()))
+                .filter(evaluation -> brand == evaluation.getValue())
+                .findFirst()
+                .orElseGet(() -> {
+                    Evaluation evaluation = new Evaluation();
+                    evaluation.setScore(0);
+                    return evaluation;
+                })
+                .getScore();
+        int scoreAge = evaluationList
+                .stream()
+                .filter(evaluation -> "age".equals(evaluation.getName()))
+                .sorted(Comparator.comparing(Evaluation::getValue))
+                .filter(evaluation -> evaluation.getValue() >= age)
+                .findFirst()
+                .orElseGet(() -> {
+                    Evaluation evaluation = new Evaluation();
+                    evaluation.setScore(0);
+                    return evaluation;
+                })
+                .getScore();
+        int scoreKm = evaluationList
+                .stream()
+                .filter(evaluation -> "km".equals(evaluation.getName()))
+                .sorted(Comparator.comparing(Evaluation::getValue))
+                .filter(evaluation -> evaluation.getValue() >= km)
+                .findFirst()
+                .orElseGet(() -> {
+                    Evaluation evaluation = new Evaluation();
+                    evaluation.setScore(0);
+                    return evaluation;
+                })
+                .getScore();
+
+        double score = scoreAge + scoreBrand + scoreKm;
+
+        Assist assist = new Assist();
+        model.addAttribute("carBrandList", carbrandService.selectCarbrand(assist));
+        model.addAttribute("result", score);
+        return "AdminReceiptList";
     }
 }

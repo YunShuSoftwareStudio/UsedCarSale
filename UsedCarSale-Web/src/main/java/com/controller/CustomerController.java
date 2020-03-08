@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import service.AdminlogService;
@@ -142,6 +143,7 @@ public class CustomerController {
         logger.debug("添加客户的信息为:" + customer);
 
         //根据所有信息添加客户
+        customer.setCustomerCreateTime(new Date());
         int count = customerService.insertCustomer(customer);
         if (count > 0) {
             logger.debug("添加客户成功:" + count);
@@ -191,9 +193,9 @@ public class CustomerController {
         modelAndView.addObject("emp", employeeById);
         modelAndView.addObject("customerList", customerList);
 
-        if (positionId == MyConst.ADMINPOSITION) {
+        if (positionId.equals(MyConst.ADMINPOSITION)) {
             modelAndView.setViewName("AdminCustomerList");//经理权限
-        } else if (positionId == MyConst.EMPPOSITION) {
+        } else if (positionId.equals(MyConst.EMPPOSITION)) {
             modelAndView.setViewName("EmpCustomerList");//操作员权限
         }
 
@@ -210,4 +212,22 @@ public class CustomerController {
         return modelAndView;
     }
 
+    @RequestMapping("/isExistCustomerName")
+    @ResponseBody
+    public Map<String, String> isExistCustomerName(@RequestParam String customerName) {
+        Map<String, String> map = new HashMap<String, String>();
+        Customer customer = new Customer();
+        customer.setCustomerName(customerName);
+        try {
+            if (customerService.selectCustomerByObj(customer) != null) {
+                map.put("exist", "true");
+            } else {
+                map.put("exist", "false");
+            }
+        } catch (Exception e) {
+            logger.debug(e.getMessage());
+            map.put("exist", "true");
+        }
+        return map;
+    }
 }

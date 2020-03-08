@@ -50,7 +50,7 @@
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input type="text" id="customerPhone_edit" name="customerPhone"
-                                   required="required" class="form-control col-md-7 col-xs-12">
+                                  onblur="verifyTel2(this)" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
@@ -96,7 +96,7 @@
                     <div class="ln_solid"></div>
                     <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
-                            <button type="submit" class="btn btn-success">提交</button>
+                            <button type="submit" id="customerEditSubmit" class="btn btn-success">提交</button>
                             <button type="reset" class="btn btn-primary">重置</button>
                         </div>
                     </div>
@@ -106,6 +106,28 @@
         </div>
     </div>
 
-
+<script>
+    function verifyTel2(e) {
+        var customerAddSubmit = document.getElementById('customerEditSubmit');
+        var telphoneVerify = /^1[3|4|5|7|8][0-9]{9}$/;
+        var empPhone = e.value;
+        console.log(empPhone);
+        //判断是否为空
+        if (empPhone==="") {
+            alert("电话号码不能为空");
+        } else {
+            //按照手机号码正则测试
+            if (telphoneVerify.test(empPhone)) {
+                //如果是true代表手机号码格式正确
+                //解除按钮禁止
+                customerAddSubmit.setAttribute('class', 'btn btn-success');
+            } else {
+                //如果是false代表手机号码格式不正确
+                //禁止提交按钮点击
+                customerAddSubmit.setAttribute('class', 'btn btn-danger disabled');
+            }
+        }
+    }
+</script>
 </body>
 </html>

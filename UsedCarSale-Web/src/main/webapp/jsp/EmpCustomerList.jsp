@@ -66,6 +66,19 @@
                                         欢迎页</a></li>
                                 </ul>
                             </li>
+                            <li><a><i class="fa fa-desktop"></i> 品牌管理
+                                <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/brand/list.action?empId=${emp.empId}">
+                                            品牌信息</a>
+                                    </li>
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/brand/hot.action?empId=${emp.empId}">
+                                            热卖品牌</a>
+                                    </li>
+                                </ul>
+                            </li>
                             <li class="active"><a><i class="fa fa-user"></i> 客户管理
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" style="display: block;">

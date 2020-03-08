@@ -1,12 +1,10 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Altman
-  Date: 2018-05-07
-  Time: 14:58
-  经理权限的库存查询
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page isELIgnored="false" %>
+<% String path = request.getContextPath();
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+    application.setAttribute("basePath", basePath);
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,7 +51,7 @@
                 <%@include file="userLeft.jsp" %>
                 <!-- /menu profile quick info -->
 
-                <br />
+                <br/>
 
                 <!-- sidebar menu -->
                 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -62,46 +60,65 @@
                             <li><a><i class="fa fa-home"></i> 主页消息 <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="${pageContext.request.contextPath}/login/goMain.action?empId=${emp.empId}">
-                                        欢迎页</a></li>
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/login/goMain.action?empId=${emp.empId}">
+                                            欢迎页</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-desktop"></i> 品牌管理
+                            <li class="active"><a><i class="fa fa-th-list"></i> 品牌管理
                                 <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li>
+                                <ul class="nav child_menu" style="display: block;">
+                                    <li class="current-page">
                                         <a href="${pageContext.request.contextPath}/brand/list.action?empId=${emp.empId}">
-                                            品牌信息</a>
-                                    </li>
+                                            品牌信息</a></li>
                                     <li>
                                         <a href="${pageContext.request.contextPath}/brand/hot.action?empId=${emp.empId}">
-                                            热卖品牌</a>
-                                    </li>
+                                            热卖品牌</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-user"></i> 客户管理
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="${pageContext.request.contextPath}/customer/getAllCustomer.action?empId=${emp.empId}">
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/customer/getAllCustomer.action?empId=${emp.empId}">
                                             客户资料</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-desktop"></i> 销售管理
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="${pageContext.request.contextPath}/sale/getAllSale.action?empId=${emp.empId}">
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/sale/getAllSale.action?empId=${emp.empId}">
                                             车辆销售</a></li>
                                 </ul>
                             </li>
-                            <li class="active"><a><i class="fa fa-th-list"></i> 库存管理
+                            <li><a><i class="fa fa-cny"></i> 收购管理
                                 <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu" style="display: block;">
-                                    <li class="current-page">
-                                        <a href="${pageContext.request.contextPath}/repertory/getAllRepertory.action?empId=${emp.empId}">
-                                        车辆库存</a></li>
+                                <ul class="nav child_menu">
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/order/getAllReceipt.action?empId=${emp.empId}">
+                                            收款</a></li>
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/order/getAllOrder.action?empId=${emp.empId}">
+                                            付款</a></li>
                                 </ul>
                             </li>
-
+                            <li><a><i class="fa fa-bar-chart-o"></i> 统计管理
+                                <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/finance/getEmpId.action?empId=${emp.empId}">
+                                            财务状况</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-cog"></i> 系统管理
+                                <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/system/getAllEmp.action?empId=${emp.empId}">
+                                            员工管理</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
 
@@ -123,7 +140,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>车辆库存情况</h2>
+                            <h2>品牌信息</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -137,25 +154,28 @@
                             <table id="datatable-buttons" class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>汽车名称</th>
-                                    <th>汽车售价</th>
-                                    <th>库存数量</th>
-                                    <th>汽车进价</th>
-                                    <th>入库时间</th>
+                                    <th>品牌名称</th>
+                                    <th>操作</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <c:forEach items="${repertoryList}" var="repertory">
-                                    <tr>
-                                        <td>${repertory.car.carName}</td>
-                                        <td style="color: red">¥${repertory.purchasePrice}</td>
-                                        <td>${repertory.repertoryNum}</td>
-                                        <td>¥${repertory.car.carPrice}</td>
-                                        <td>${repertory.getInTimeFormat()}</td>
+                                <c:forEach items="${carbrandList}" var="carbrand">
+                                    <tr data-id="${carbrand.brandId}">
+                                        <td>${carbrand.brandName}</td>
+                                        <td>
+                                            <button data-id="${carbrand.brandId}"
+                                                    onclick="editCarBrand('${carbrand.brandId}','${carbrand.brandName}')"
+                                                    class="btn btn-info btn-xs">修改
+                                            </button>
+                                            <button data-id="${carbrand.brandId}"
+                                                    data-empId="${emp.empId}"
+                                                    onclick="delCarBrand(this)"
+                                                    class="btn btn-danger btn-xs deleteClick">删除
+                                            </button>
+                                        </td>
                                     </tr>
                                 </c:forEach>
-                                <input type="hidden" v="${repertoryList}">
                                 </tbody>
                             </table>
                         </div>
@@ -163,17 +183,12 @@
                 </div>
             </div>
             <!--查询库存情况-结束-->
-
+            <!-- /page content -->
             <div class="row">
-                <!--下订单-开始-->
-                <%@include file="repertoryAdd.jsp" %>
-                <!--下订单-结束-->
-
+                <%@include file="brandInfoAdd.jsp" %>
+                <%@include file="brandInfoEdit.jsp" %>
             </div>
-
         </div>
-        <!-- /page content -->
-
         <!-- footer content -->
         <%@include file="footer.jsp" %>
         <!-- /footer content -->
@@ -183,9 +198,6 @@
 
 <!-- jQuery -->
 <script src="../vendors/jquery/dist/jquery.min.js"></script>
-
-<!-- 引入js文件 -->
-<script type="text/javascript" src="../js/repertory.js"></script>
 
 <!-- Bootstrap -->
 <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -221,8 +233,28 @@
 
 <!-- Custom Theme Scripts -->
 <script src="../build/js/custom.min.js"></script>
+<script>
+    function delCarBrand(e) {
+        var id = e.getAttribute("data-id");
+        var projectName = $('#projectName').attr('project');
+        $.getJSON(
+            projectName + '/brand/delCarBrand.action',
+            {id: id,},
+            function (data) {
+                if (data) {
+                    window.location.reload();
+                } else {
+                    alert("该品牌下还有车系等信息，请先删除它们再试");
+                }
+            });
+    }
 
+    function editCarBrand(id, name) {
+        var did = document.getElementById("id");
+        var old = document.getElementById("old_id");
+        did.value=id;
+        old.value = name;
+    }
+</script>
 </body>
-
-
 </html>

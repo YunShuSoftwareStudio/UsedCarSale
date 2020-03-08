@@ -6,6 +6,7 @@ import common.Assist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +15,8 @@ import service.CompanyService;
 import service.EmployeeService;
 import service.FinancingService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,5 +71,12 @@ public class FinanceController {
         map.put("financeCondition", financeCondition);
         logger.debug("结束--查询财务表中的数据并传递到页面");
         return map;
+    }
+
+    @RequestMapping("/exportAsExcel")
+    public void export(HttpServletResponse response) throws IOException {
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=excel.xlsx");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        financingService.getExcelData(response.getOutputStream());
     }
 }

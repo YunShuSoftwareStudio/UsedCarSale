@@ -1,4 +1,6 @@
 package service;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import com.pojo.Financing;
 import common.Assist;
@@ -89,4 +91,6 @@ public interface FinancingService{
 	 * @return
 	 */
     int updateNonEmptyFinancing(Financing value, Assist assist);
+
+    void getExcelData(OutputStream outputStream) throws IOException;
 }

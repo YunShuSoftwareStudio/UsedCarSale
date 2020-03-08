@@ -237,4 +237,22 @@ public class SystemController {
         return map;
     }
 
+    @RequestMapping("/isExistEmpName")
+    @ResponseBody
+    public Map<String, String> isExistEmpName(@RequestParam String name) {
+        Map<String, String> map = new HashMap<String, String>();
+        Employee employee = new Employee();
+        employee.setEmpName(name);
+        try {
+            if (employeeService.selectEmployeeByObj(employee) != null) {
+                map.put("exist", "true");
+            } else {
+                map.put("exist", "false");
+            }
+        } catch (Exception e) {
+            logger.debug(e.getMessage());
+            map.put("exist", "true");
+        }
+        return map;
+    }
 }

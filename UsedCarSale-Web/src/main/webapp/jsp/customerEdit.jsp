@@ -96,7 +96,7 @@
                     <div class="ln_solid"></div>
                     <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
-                            <button type="submit" id="customerEditSubmit" class="btn btn-success">提交</button>
+                            <button type="submit" id="customerEditSubmit2" class="btn btn-success">提交</button>
                             <button type="reset" class="btn btn-primary">重置</button>
                         </div>
                     </div>
@@ -108,7 +108,7 @@
 
 <script>
     function verifyTel2(e) {
-        var customerAddSubmit = document.getElementById('customerEditSubmit');
+        var customerAddSubmit = document.getElementById('customerEditSubmit2');
         var telphoneVerify = /^1[3|4|5|7|8][0-9]{9}$/;
         var empPhone = e.value;
         console.log(empPhone);

@@ -6,8 +6,8 @@ import com.pojo.Employee;
 import common.Assist;
 import common.MyConst;
 import common.PhoneMessageUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static common.Assist.*;
+import static common.Assist.andEq;
 
 /**
  * @description: 用户登录和注册
@@ -31,8 +31,7 @@ import static common.Assist.*;
 @Controller
 @RequestMapping("/login")
 public class LoginController {
-
-    private static Logger logger = LogManager.getLogger();
+    private static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
     CompanyService companyService;
@@ -49,10 +48,10 @@ public class LoginController {
      * @return: goMain
      * @author: Altman
      * @date: 2018-05-04 00:56
-    **/
+     **/
     @RequestMapping("/goMain")
     @ResponseBody
-    public ModelAndView goMain(String empId){
+    public ModelAndView goMain(String empId) {
         logger.debug("开始--根据id查询员工对象的方法");
         ModelAndView modelAndView = new ModelAndView();
 
@@ -60,7 +59,7 @@ public class LoginController {
         logger.debug("根据id查询员工对象为：" + employeeById);
 
         Integer positionId = employeeById.getPositionId();
-        if (positionId.equals(MyConst.ADMINPOSITION)){
+        if (positionId.equals(MyConst.ADMINPOSITION)) {
             modelAndView.setViewName("AdminMain");//经理权限
         } else if (positionId.equals(MyConst.EMPPOSITION)) {
             modelAndView.setViewName("EmpMain");//操作员权限
@@ -73,9 +72,9 @@ public class LoginController {
         adminlog.setLogContent("访问首页");
         adminlog.setLogTime(new Date());
         int i = adminlogService.insertAdminlog(adminlog);
-        logger.debug("添加了"+i+"条日志管理记录");
+        logger.debug("添加了" + i + "条日志管理记录");
 
-        modelAndView.addObject("emp",employeeById);
+        modelAndView.addObject("emp", employeeById);
         logger.debug("结束--根据id查询员工对象的方法");
         return modelAndView;
     }
@@ -86,20 +85,20 @@ public class LoginController {
      * @return:
      * @author: Altman
      * @date: 2018-05-03 23:38
-    **/
+     **/
     @RequestMapping("/isRegisterSuccess")
     @ResponseBody
-    public Map<String, String> isRegisterSuccess(Employee employee){
+    public Map<String, String> isRegisterSuccess(Employee employee) {
         logger.debug("开始--创建员工的方法");
-        Map<String,String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
 
         int count = employeeService.insertEmployee(employee);
-        if (count > 0){
+        if (count > 0) {
             logger.debug("添加员工成功");
-            map.put("resultRegister","true");
+            map.put("resultRegister", "true");
         } else {
             logger.debug("添加员工失败！");
-            map.put("resultRegister","false");
+            map.put("resultRegister", "false");
         }
 
         logger.debug("结束--创建员工的方法");
@@ -113,15 +112,15 @@ public class LoginController {
      * @return: Map<String, String>
      * @author: Altman
      * @date: 2018-05-03 23:18
-    **/
+     **/
     @RequestMapping("/insertCompany")
     @ResponseBody
-    public Map<String, String> insertCompany(Company company){
+    public Map<String, String> insertCompany(Company company) {
         logger.debug("开始--创建公司的方法");
-        Map<String,String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
 
         int count = companyService.insertCompany(company);
-        if (count > 0){
+        if (count > 0) {
             logger.debug("添加公司成功");
         } else {
             logger.debug("添加公司失败！");
@@ -130,34 +129,34 @@ public class LoginController {
         Company companyByObj = companyService.selectCompanyByObj(company);
         Integer companyId = companyByObj.getCompanyId();
         logger.debug("获取到的公司id为：" + companyId);
-        map.put("companyId",companyId.toString());
+        map.put("companyId", companyId.toString());
 
         logger.debug("结束--创建公司的方法");
         return map;
     }
 
-    /** 
-     * @description: 给注册手机发送短信验证码 
+    /**
+     * @description: 给注册手机发送短信验证码
      * @param: empPhoneNumber：员工注册手机号码
      * @return: Map<String, String>
-     * @author: Altman 
+     * @author: Altman
      * @date: 2018-05-03 23:17
-    **/ 
+     **/
     @RequestMapping("/sendPhoneMesseger")
     @ResponseBody
-    public Map<String, String> sendPhoneMesseger(String empPhoneNumber){
+    public Map<String, String> sendPhoneMesseger(String empPhoneNumber) {
         logger.debug("开始--发送手机短信的方法");
-        Map<String,String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
 
         String authcode = phoneMessageUtil.genRandomNum(4);
-        logger.debug("手机验证码,生成验证码:"+authcode);
+        logger.debug("手机验证码,生成验证码:" + authcode);
 
-        if(phoneMessageUtil.sandMassage(authcode,empPhoneNumber)){
-            logger.debug("验证码发送成功,发送号码:"+empPhoneNumber);
-            map.put("resultRegister",authcode);
-        }else{
-            logger.debug("验证码发送失败,发送号码:"+empPhoneNumber);
-            map.put("resultRegister","false");
+        if (phoneMessageUtil.sandMassage(authcode, empPhoneNumber)) {
+            logger.debug("验证码发送成功,发送号码:" + empPhoneNumber);
+            map.put("resultRegister", authcode);
+        } else {
+            logger.debug("验证码发送失败,发送号码:" + empPhoneNumber);
+            map.put("resultRegister", "false");
         }
 
         logger.debug("结束--发送手机短信的方法");
@@ -171,14 +170,14 @@ public class LoginController {
      * @return: Map<String, String>
      * @author: Altman
      * @date: 2018-04-28 10:56
-    **/
+     **/
     @RequestMapping("/isLoginSuccess")
     @ResponseBody
-    public Map<String, String> isLoginSuccess(Employee employee){
+    public Map<String, String> isLoginSuccess(Employee employee) {
         employee.setCompanyId(1);
         logger.debug("开始--验证是否登录成功的方法");
-        logger.debug("前台获取到的employee为："+employee);
-        Map<String,String> map = new HashMap<String, String>();
+        logger.debug("前台获取到的employee为：" + employee);
+        Map<String, String> map = new HashMap<String, String>();
 
         //设置参数条件
         Assist.WhereRequire<Integer> companyId = andEq("companyId", employee.getCompanyId());
@@ -187,15 +186,15 @@ public class LoginController {
         Assist.WhereRequire<String> empPhone = andEq("empPhone", employee.getEmpPhone());
         Assist.WhereRequire<String> empPassword = andEq("empPassword", employee.getEmpPassword());
         Assist assist = new Assist();
-        assist.setRequires(positionId,companyId,empName,empPhone,empPassword);
+        assist.setRequires(positionId, companyId, empName, empPhone, empPassword);
 
         long rowCount = employeeService.getEmployeeRowCount(assist);
         logger.debug("getEmployeeRowCount：" + rowCount);
-        if (rowCount > 0){
+        if (rowCount > 0) {
             logger.debug("验证成功，允许登录");
             Employee employeeByObj = employeeService.selectEmployeeByObj(employee);
             Integer empId = employeeByObj.getEmpId();
-            map.put("resultLogin",empId.toString());
+            map.put("resultLogin", empId.toString());
 
             //添加日志管理信息
             Adminlog adminlog = new Adminlog();
@@ -204,11 +203,11 @@ public class LoginController {
             adminlog.setLogContent("登录系统");
             adminlog.setLogTime(new Date());
             int i = adminlogService.insertAdminlog(adminlog);
-            logger.debug("添加了"+i+"条日志管理记录");
+            logger.debug("添加了" + i + "条日志管理记录");
 
         } else {
             logger.debug("验证失败，拒绝登录");
-            map.put("resultLogin","false");
+            map.put("resultLogin", "false");
         }
 
         logger.debug("结束--验证是否登录成功的方法");
@@ -221,16 +220,16 @@ public class LoginController {
      * @return: Map<String, String>
      * @author: Altman
      * @date: 2018-04-28 10:52
-    **/
+     **/
     @ResponseBody
     @RequestMapping("/getCompanyId")
-    public Map<String, String> getCompanyId(Company company){
+    public Map<String, String> getCompanyId(Company company) {
         logger.debug("开始--获取公司id的方法");
-        Map<String,String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
 
         Company companyByObj = companyService.selectCompanyByObj(company);
         Integer companyId = companyByObj.getCompanyId();
-        map.put("companyId",companyId.toString());
+        map.put("companyId", companyId.toString());
 
         logger.debug("结束--获取公司id的方法");
         return map;
@@ -242,49 +241,49 @@ public class LoginController {
      * @return: Map<String, String>
      * @author: Altman
      * @date: 2018-04-26 17:06
-    **/
+     **/
     @RequestMapping("/isExistCompanyName")
     @ResponseBody
-    public Map<String, String> isExistCompanyName(Company company){
+    public Map<String, String> isExistCompanyName(Company company) {
         logger.debug("开始--验证公司名称的方法");
-        Map<String,String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
 
         Company companyByObj = companyService.selectCompanyByObj(company);
-        if (companyByObj == null){
+        if (companyByObj == null) {
             logger.debug("没有找到此公司名称");
-            map.put("resultName","false");
+            map.put("resultName", "false");
         } else {
             logger.debug("找到此公司名称");
-            map.put("resultName","true");
+            map.put("resultName", "true");
         }
 
         logger.debug("结束--验证公司名称的方法");
         return map;
     }
 
-    /** 
-     * @description: 验证员工电话 
+    /**
+     * @description: 验证员工电话
      * @param: employee员工对象
      * @return: Map<String, String>
-     * @author: Altman 
+     * @author: Altman
      * @date: 2018-05-04 01:09
-    **/ 
+     **/
     @RequestMapping("/isExistEmpPhone")
     @ResponseBody
-    public Map<String, String> isExistEmpPhone(Employee employee){
+    public Map<String, String> isExistEmpPhone(Employee employee) {
         employee.setCompanyId(1);
         logger.debug("开始--验证员工电话的方法");
-        Map<String,String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
         logger.debug("前台获取到的emp：" + employee);
         Employee employeeByObj = employeeService.selectEmployeeByObj(employee);
         logger.debug("后台查询到的emp：" + employee);
 
-        if (employeeByObj == null){
+        if (employeeByObj == null) {
             logger.debug("没有找到此员工电话");
-            map.put("resultName","false");
-        } else{
+            map.put("resultName", "false");
+        } else {
             logger.debug("找到此员工电话");
-            map.put("resultName","true");
+            map.put("resultName", "true");
         }
 
         logger.debug("结束--验证员工电话的方法");
@@ -297,27 +296,26 @@ public class LoginController {
      * @return: Map<String, String>
      * @author: Altman
      * @date: 2018-04-28 08:03
-    **/
+     **/
     @RequestMapping("/isExistEmpName")
     @ResponseBody
-    public Map<String, String> isExistEmpName(Employee employee){
+    public Map<String, String> isExistEmpName(Employee employee) {
         logger.debug("开始--验证员工名称的方法");
-        Map<String,String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
 
         Employee employeeByObj = employeeService.selectEmployeeByObj(employee);
 
-        if (employeeByObj == null){
+        if (employeeByObj == null) {
             logger.debug("没有找到此员工名称");
-            map.put("resultName","false");
-        } else{
+            map.put("resultName", "false");
+        } else {
             logger.debug("找到此员工名称");
-            map.put("resultName","true");
+            map.put("resultName", "true");
         }
 
         logger.debug("结束--验证员工名称的方法");
         return map;
     }
-
 
 
 }

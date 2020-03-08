@@ -5,8 +5,8 @@ import com.pojo.Customer;
 import com.pojo.Employee;
 import common.Assist;
 import common.MyConst;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +29,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("customer")
 public class CustomerController {
-    private static Logger logger = LogManager.getLogger();
+    private static Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     @Autowired
     CustomerService customerService;
@@ -37,17 +37,18 @@ public class CustomerController {
     EmployeeService employeeService;
     @Autowired
     AdminlogService adminlogService;
+
     /**
      * @description: 根据客户id删除客户信息
      * @param:
      * @return: deleteCustomerById
      * @author: Altman
      * @date: 2018-05-06 20:43
-    **/
+     **/
     @RequestMapping("/deleteCustomerById")
-    public String deleteCustomerById(String customerId,String empId){
+    public String deleteCustomerById(String customerId, String empId) {
         logger.debug("开始--根据客户id删除客户信息的方法");
-        logger.debug("获取到的需要删除的customer的id为:"+customerId);
+        logger.debug("获取到的需要删除的customer的id为:" + customerId);
 
         //根据所有信息修改客户
         int count = customerService.deleteCustomerById(Integer.parseInt(customerId));
@@ -66,23 +67,23 @@ public class CustomerController {
         adminlog.setLogContent("删除了客户信息");
         adminlog.setLogTime(new Date());
         int i = adminlogService.insertAdminlog(adminlog);
-        logger.debug("添加了"+i+"条日志管理记录");
+        logger.debug("添加了" + i + "条日志管理记录");
 
         logger.debug("结束--根据客户id删除客户信息的方法");
-        return "redirect:/customer/getAllCustomer.action?empId="+empId;
+        return "redirect:/customer/getAllCustomer.action?empId=" + empId;
     }
 
-    /** 
+    /**
      * @description: 修改客户信息
      * @param:
      * @return:
-     * @author: Altman 
+     * @author: Altman
      * @date: 2018-05-06 19:38
-    **/ 
+     **/
     @RequestMapping("/updateCustomer")
-    public String updateCustomer(Customer customer,String empId){
+    public String updateCustomer(Customer customer, String empId) {
         logger.debug("开始--修改客户资料的方法");
-        logger.debug("获取到的需要修改的customer的信息:"+customer);
+        logger.debug("获取到的需要修改的customer的信息:" + customer);
 
         //根据所有信息修改客户
         int count = customerService.updateCustomerById(customer);
@@ -101,42 +102,42 @@ public class CustomerController {
         adminlog.setLogContent("修改了客户信息");
         adminlog.setLogTime(new Date());
         int i = adminlogService.insertAdminlog(adminlog);
-        logger.debug("添加了"+i+"条日志管理记录");
+        logger.debug("添加了" + i + "条日志管理记录");
 
         logger.debug("结束--添加客户资料的方法");
-        return "redirect:/customer/getAllCustomer.action?empId="+empId;
+        return "redirect:/customer/getAllCustomer.action?empId=" + empId;
     }
 
-    /** 
-     * @description: 根据客户id查询客户对象 
+    /**
+     * @description: 根据客户id查询客户对象
      * @param:
-     * @return: 
-     * @author: Altman 
+     * @return:
+     * @author: Altman
      * @date: 2018-05-06 17:35
-    **/ 
+     **/
     @RequestMapping("/getCustomerById")
     @ResponseBody
-    public Map<String, Customer> getCustomerById(String customerId){
+    public Map<String, Customer> getCustomerById(String customerId) {
         logger.debug("开始--根据id查询客户的方法");
-        Map<String,Customer> map = new HashMap<String, Customer>();
+        Map<String, Customer> map = new HashMap<String, Customer>();
 
         Customer customerById = customerService.selectCustomerById(Integer.parseInt(customerId));
         logger.debug("根据id查询到的客户为：" + customerById);
-        map.put("customer",customerById);
+        map.put("customer", customerById);
 
         logger.debug("结束--根据id查询客户的方法");
         return map;
     }
-    
-    /** 
-     * @description: 添加客户，并根据员工id转向到getAllCustomer.action 
+
+    /**
+     * @description: 添加客户，并根据员工id转向到getAllCustomer.action
      * @param:
-     * @return: 
-     * @author: Altman 
+     * @return:
+     * @author: Altman
      * @date: 2018-05-06 16:37
-    **/ 
+     **/
     @RequestMapping("/insertCustomer")
-    public String insertCustomer(Customer customer,String empId){
+    public String insertCustomer(Customer customer, String empId) {
         logger.debug("开始--添加客户资料的方法");
         logger.debug("添加客户的信息为:" + customer);
 
@@ -157,21 +158,21 @@ public class CustomerController {
         adminlog.setLogContent("添加了客户");
         adminlog.setLogTime(new Date());
         int i = adminlogService.insertAdminlog(adminlog);
-        logger.debug("添加了"+i+"条日志管理记录");
+        logger.debug("添加了" + i + "条日志管理记录");
 
         logger.debug("结束--添加客户资料的方法");
-        return "redirect:../customer/getAllCustomer.action?empId="+empId;
+        return "redirect:../customer/getAllCustomer.action?empId=" + empId;
     }
 
-    /** 
+    /**
      * @description: 根据登录用户的公司编号查询所有的客户资料
      * @param: empId用户编号
      * @return: String转发到listCustomer.jsp页面
-     * @author: Altman 
+     * @author: Altman
      * @date: 2018-05-03 11:36
-    **/ 
+     **/
     @RequestMapping("/getAllCustomer")
-    public ModelAndView getAllCustomer(String empId){
+    public ModelAndView getAllCustomer(String empId) {
         logger.debug("开始--查询客户资料的方法");
 
         //根据用户id查询用户，并获取到公司编号companyId
@@ -183,14 +184,14 @@ public class CustomerController {
         Assist assist = new Assist();
         assist.setRequires(Assist.andEq("customer.companyId", companyId));
         List<Customer> customerList = customerService.selectCustomer(assist);
-        logger.debug("查询的结果为："+customerList);
+        logger.debug("查询的结果为：" + customerList);
 
         //创建ModelAndView用来存放数据和视图
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("emp",employeeById);
-        modelAndView.addObject("customerList",customerList);
+        modelAndView.addObject("emp", employeeById);
+        modelAndView.addObject("customerList", customerList);
 
-        if (positionId == MyConst.ADMINPOSITION){
+        if (positionId == MyConst.ADMINPOSITION) {
             modelAndView.setViewName("AdminCustomerList");//经理权限
         } else if (positionId == MyConst.EMPPOSITION) {
             modelAndView.setViewName("EmpCustomerList");//操作员权限
@@ -203,7 +204,7 @@ public class CustomerController {
         adminlog.setLogContent("查询了所有的客户资料");
         adminlog.setLogTime(new Date());
         int i = adminlogService.insertAdminlog(adminlog);
-        logger.debug("添加了"+i+"条日志管理记录");
+        logger.debug("添加了" + i + "条日志管理记录");
 
         logger.debug("结束--查询客户资料的方法");
         return modelAndView;

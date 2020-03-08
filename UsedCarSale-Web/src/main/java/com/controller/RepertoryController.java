@@ -5,8 +5,8 @@ import com.pojo.Employee;
 import com.pojo.Repertory;
 import common.Assist;
 import common.MyConst;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +26,8 @@ import java.util.List;
 @Controller
 @RequestMapping("repertory")
 public class RepertoryController {
-    private static Logger logger = LogManager.getLogger();
-    
+    private static Logger logger = LoggerFactory.getLogger(RepertoryController.class);
+
     @Autowired
     EmployeeService employeeService;
     @Autowired
@@ -35,15 +35,15 @@ public class RepertoryController {
     @Autowired
     AdminlogService adminlogService;
 
-    /** 
-     * @description: 根据公司id查询所有库存 
+    /**
+     * @description: 根据公司id查询所有库存
      * @param:
      * @return:
-     * @author: Altman 
+     * @author: Altman
      * @date: 2018-05-07 15:06
-    **/ 
+     **/
     @RequestMapping("/getAllRepertory")
-    public ModelAndView getAllRepertory(String empId){
+    public ModelAndView getAllRepertory(String empId) {
         logger.debug("开始--查询库存的方法");
         logger.debug("获取的前端员工empId为：" + empId);
 
@@ -55,16 +55,16 @@ public class RepertoryController {
         //根据登录用户的公司编号查询所有的
         Assist assist = new Assist();
         assist.setRequires(Assist.andEq("repertory.companyId", companyId));
-        assist.setRequires(Assist.andGt("repertoryNum",0));
+        assist.setRequires(Assist.andGt("repertoryNum", 0));
         List<Repertory> repertoryList = repertoryService.selectRepertory(assist);
-        logger.debug("查询的结果为："+repertoryList);
+        logger.debug("查询的结果为：" + repertoryList);
 
         //创建ModelAndView用来存放数据和视图
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("emp",employeeById);
-        modelAndView.addObject("repertoryList",repertoryList);
+        modelAndView.addObject("emp", employeeById);
+        modelAndView.addObject("repertoryList", repertoryList);
 
-        if (positionId == MyConst.ADMINPOSITION){
+        if (positionId == MyConst.ADMINPOSITION) {
             modelAndView.setViewName("AdminRepertoryList");//经理权限
         } else if (positionId == MyConst.EMPPOSITION) {
             modelAndView.setViewName("EmpRepertoryList");//操作员权限
@@ -77,7 +77,7 @@ public class RepertoryController {
         adminlog.setLogContent("查询了库存");
         adminlog.setLogTime(new Date());
         int i = adminlogService.insertAdminlog(adminlog);
-        logger.debug("添加了"+i+"条日志管理记录");
+        logger.debug("添加了" + i + "条日志管理记录");
 
         logger.debug("结束--查询库存的方法");
         return modelAndView;

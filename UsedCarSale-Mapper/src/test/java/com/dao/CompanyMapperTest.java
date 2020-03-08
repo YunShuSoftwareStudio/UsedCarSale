@@ -1,10 +1,10 @@
 package com.dao;
 
 import com.pojo.Company;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -16,11 +16,10 @@ import java.sql.SQLException;
  * @description: 测试公司dao层
  * @author: Altman
  * @date: 2018-04-26
- *
  **/
 public class CompanyMapperTest {
 
-    private static Logger logger = LogManager.getLogger();
+    private static Logger logger = LoggerFactory.getLogger(CompanyMapperTest.class);
 
     private ApplicationContext ac;
 
@@ -40,7 +39,7 @@ public class CompanyMapperTest {
     public void testConnect() throws SQLException {
         DataSource dataSource = (DataSource) this.ac.getBean("dataSource");
         Connection conn = dataSource.getConnection();
-        logger.debug(conn);
+        logger.debug(conn.toString());
     }
 
     /**
@@ -51,7 +50,7 @@ public class CompanyMapperTest {
      * @date: 2018-04-26 11:39
      **/
     @Test
-    public void testQueryByPK(){
+    public void testQueryByPK() {
         CompanyMapper companyMapper = this.ac.getBean(CompanyMapper.class);
         Company company = companyMapper.selectCompanyById(1);
         logger.debug("公司名称：" + company.getCompanyName());

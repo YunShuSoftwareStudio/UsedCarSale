@@ -83,6 +83,7 @@ public class CustomerController {
      **/
     @RequestMapping("/updateCustomer")
     public String updateCustomer(Customer customer, String empId) {
+        customer.setCustomerCreateTime(new Date());
         logger.debug("开始--修改客户资料的方法");
         logger.debug("获取到的需要修改的customer的信息:" + customer);
 

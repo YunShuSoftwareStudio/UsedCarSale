@@ -112,6 +112,7 @@ public class OrderController {
             financing.setCompanyId(carorderById.getCompanyId());
             financing.setFinancingMoney(carorderById.getOrderTotalPrice());
             financing.setFinancingType(MyConst.SPENDING);
+            financing.setFinancingTime(new Date());
             int insertFinancingCount = financingService.insertFinancing(financing);
             logger.debug("财务添加" + insertFinancingCount + "条支出数据");
             logger.debug("数据financing为：" + financing);

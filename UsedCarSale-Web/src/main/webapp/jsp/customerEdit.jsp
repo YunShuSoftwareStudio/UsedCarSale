@@ -72,8 +72,8 @@
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <select name="customerType" class="select2_single form-control" tabindex="-1">
-                                <option value="1">个人</option>
-                                <option value="2">公司</option>
+                                <option value="1">销售</option>
+                                <option value="2">收购</option>
                             </select>
                         </div>
                     </div>

@@ -414,7 +414,7 @@ CREATE TABLE `customer`  (
   `customerName` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '客户姓名',
   `customerPhone` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '客户电话',
   `customerSex` varchar(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '客户性别',
-  `customerType` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '客户类型（1：个人、2：公司）',
+  `customerType` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '客户类型（1：销售、2：收购）',
   `customerBirthday` date NULL DEFAULT NULL COMMENT '客户生日',
   `customerCreateTime` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`customerId`) USING BTREE,

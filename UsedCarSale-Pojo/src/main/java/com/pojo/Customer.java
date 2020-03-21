@@ -6,7 +6,7 @@ public class Customer {
     private Integer customerId;//客户编号
     private Integer companyId;//公司编号
     private String customerPhone;//客户电话
-    private String customerType;//客户类型（1：个人、2：公司）
+    private String customerType;//客户类型（1：销售、2：收购）
     private java.util.Date customerCreateTime;//创建时间
     private String customerSex;//客户性别
     private java.util.Date customerBirthday;//客户生日
@@ -35,9 +35,9 @@ public class Customer {
     public String getTypeFormat() {
         String str = null;
         if ("1".equals(customerType)){
-            str = "个人";
+            str = "销售";
         } else if ("2".equals(customerType)){
-            str = "公司";
+            str = "收购";
         }
         return str;
     }

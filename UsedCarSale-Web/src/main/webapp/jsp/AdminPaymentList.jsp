@@ -66,7 +66,7 @@
                                         欢迎页</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-desktop"></i> 品牌管理
+                            <li><a><i class="fa fa-th-list"></i> 品牌管理
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li>

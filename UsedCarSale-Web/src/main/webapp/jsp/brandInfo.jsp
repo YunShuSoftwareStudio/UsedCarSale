@@ -92,31 +92,11 @@
                                             车辆销售</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-cny"></i> 收购管理
+                            <li><a><i class="fa fa-th-list"></i> 库存管理
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li>
-                                        <a href="${pageContext.request.contextPath}/brand/evaluation.action?empId=${emp.empId}">
-                                            收购评估</a></li>
-                                    <li>
-                                        <a href="${pageContext.request.contextPath}/order/getAllOrder.action?empId=${emp.empId}">
-                                            收购订单</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-bar-chart-o"></i> 统计管理
-                                <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li>
-                                        <a href="${pageContext.request.contextPath}/finance/getEmpId.action?empId=${emp.empId}">
-                                            财务状况</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-cog"></i> 系统管理
-                                <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li>
-                                        <a href="${pageContext.request.contextPath}/system/getAllEmp.action?empId=${emp.empId}">
-                                            员工管理</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/repertory/getAllRepertory.action?empId=${emp.empId}">
+                                        车辆库存</a></li>
                                 </ul>
                             </li>
                         </ul>

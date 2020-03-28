@@ -6,6 +6,7 @@ import com.pojo.Carbrand;
 import com.pojo.Employee;
 import com.pojo.Evaluation;
 import common.Assist;
+import common.MyConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import service.CarbrandService;
 import service.EmployeeService;
 
-import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/brand")
@@ -47,7 +46,13 @@ public class BrandController {
         Assist assist = new Assist();
         List<Carbrand> carbrandList = carbrandService.selectCarbrand(assist);
         model.addAttribute("carbrandList", carbrandList);
-        return "brandInfo";
+        if (employeeById.getPositionId().equals(MyConst.ADMINPOSITION)) {
+            //经理权限
+            return "AdminBrandInfo";
+        } else {
+            //操作员权限
+            return "brandInfo";
+        }
     }
 
     @RequestMapping("/insertCarBrand")
@@ -107,8 +112,13 @@ public class BrandController {
         model.addAttribute("emp", employeeById);
 
         model.addAttribute("hotList", brandMapper.selectHotList());
-
-        return "brandHot";
+        if (employeeById.getPositionId().equals(MyConst.ADMINPOSITION)) {
+            //经理权限
+            return "AdminBrandHot";
+        } else {
+            //操作员权限
+            return "brandHot";
+        }
     }
 
     @RequestMapping("/evaluation")

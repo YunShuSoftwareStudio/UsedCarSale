@@ -1,12 +1,10 @@
-<%@ page import="java.util.Date" %><%--
-  Created by IntelliJ IDEA.
-  User: Altman
-  Date: 2018-05-03
-  Time: 08:58
-  查询客户资料
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page isELIgnored="false" %>
+<% String path = request.getContextPath();
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+    application.setAttribute("basePath", basePath);
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,7 +51,7 @@
                 <%@include file="userLeft.jsp" %>
                 <!-- /menu profile quick info -->
 
-                <br />
+                <br/>
 
                 <!-- sidebar menu -->
                 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -62,27 +60,26 @@
                             <li><a><i class="fa fa-home"></i> 主页消息 <span
                                     class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="${pageContext.request.contextPath}/login/goMain.action?empId=${emp.empId}">
-                                        欢迎页</a></li>
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/login/goMain.action?empId=${emp.empId}">
+                                            欢迎页</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-th-list"></i> 品牌管理
+                            <li class="active"><a><i class="fa fa-th-list"></i> 品牌管理
+                                <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu" style="display: block;">
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/brand/list.action?empId=${emp.empId}">
+                                            品牌信息</a></li>
+                                    <li class="current-page">
+                                        <a href="${pageContext.request.contextPath}/brand/hot.action?empId=${emp.empId}">
+                                            热卖品牌</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-user"></i> 客户管理
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li>
-                                        <a href="${pageContext.request.contextPath}/brand/list.action?empId=${emp.empId}">
-                                            品牌信息</a>
-                                    </li>
-                                    <li>
-                                        <a href="${pageContext.request.contextPath}/brand/hot.action?empId=${emp.empId}">
-                                            热卖品牌</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="active"><a><i class="fa fa-user"></i> 客户管理
-                                <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu" style="display: block;">
-                                    <li class="current-page">
                                         <a href="${pageContext.request.contextPath}/customer/getAllCustomer.action?empId=${emp.empId}">
                                             客户资料</a></li>
                                 </ul>
@@ -90,34 +87,36 @@
                             <li><a><i class="fa fa-desktop"></i> 销售管理
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="general_elements.html">车辆销售</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-th-list"></i> 库存管理
-                                <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="tables.html">库存</a></li>
-                                    <li><a href="tables_dynamic.html">采购</a></li>
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/sale/getAllSale.action?empId=${emp.empId}">
+                                            车辆销售</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-cny"></i> 收购管理
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="chartjs.html">收购评估</a></li>
-                                    <li><a href="chartjs2.html">收购订单</a></li>
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/brand/evaluation.action?empId=${emp.empId}">
+                                            收购评估</a></li>
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/order/getAllOrder.action?empId=${emp.empId}">
+                                            收购订单</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-bar-chart-o"></i> 统计管理
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="fixed_sidebar.html">汽车销量</a></li>
-                                    <li><a href="fixed_footer.html">财务状况</a></li>
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/finance/getEmpId.action?empId=${emp.empId}">
+                                            财务状况</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-cog"></i> 系统管理
                                 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="chartjs.html">员工管理</a></li>
+                                    <li>
+                                        <a href="${pageContext.request.contextPath}/system/getAllEmp.action?empId=${emp.empId}">
+                                            员工管理</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -136,12 +135,12 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-            <!--查询客户-开始-->
+            <!--查询库存情况-开始-->
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>客户详细资料</h2>
+                            <h2>热卖品牌</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -155,55 +154,25 @@
                             <table id="datatable-buttons" class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>客户姓名</th>
-                                    <th>客户电话</th>
-                                    <th>客户性别</th>
-                                    <th>客户类型</th>
-                                    <th>客户生日</th>
-                                    <th>创建时间</th>
-                                    <th>操作</th>
+                                    <th>品牌名称</th>
+                                    <th>品牌销量</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <c:forEach items="${customerList}" var="customer">
+                                <c:forEach items="${hotList}" var="hot">
                                     <tr>
-                                        <td>${customer.customerName}</td>
-                                        <td>${customer.customerPhone}</td>
-                                        <td>${customer.customerSex}</td>
-                                        <td>${customer.getTypeFormat()}</td>
-                                        <td>${customer.getBirthdayFormat()}</td>
-                                        <td>${customer.getCreateTimeFormat()}</td>
-                                        <td>
-                                            <button v="${customer.customerId}"
-                                                    class="btn btn-info btn-xs editClick">修改
-                                            </button>
-                                            <button v="${customer.customerId}"
-                                                    data-toggle="modal" data-target="#customerDelete"
-                                                    class="btn btn-danger btn-xs deleteClick">删除</button>
-                                        </td>
+                                        <td>${hot.name}</td>
+                                        <td>${hot.num}</td>
                                     </tr>
                                 </c:forEach>
-                                <<input type="hidden" v="customerList">
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--查询客户-结束-->
-
-            <div class="row">
-                <!--添加客户-开始-->
-                <%@include file="customerAdd.jsp" %>
-                <!--添加客户-结束-->
-
-                <!--修改客户-开始-->
-                <%@include file="customerEdit.jsp" %>
-                <!--修改客户-结束-->
-            </div>
-            <!-- 删除确认模式窗口 -->
-            <%@include file="customerDelete.jsp"%>
+            <!--查询库存情况-结束-->
         </div>
         <!-- /page content -->
 
@@ -216,9 +185,6 @@
 
 <!-- jQuery -->
 <script src="../vendors/jquery/dist/jquery.min.js"></script>
-
-<!-- 引入js文件 -->
-<script type="text/javascript" src="../js/customer.js"></script>
 
 <!-- Bootstrap -->
 <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -254,8 +220,8 @@
 
 <!-- Custom Theme Scripts -->
 <script src="../build/js/custom.min.js"></script>
+<script>
 
+</script>
 </body>
-
-
 </html>
